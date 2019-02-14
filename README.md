@@ -11,7 +11,13 @@ This project is adpated to raspberry pi zero whit  RaspCAM .
 What things you need to install
 
 ```
-Give examples
+*Raspberry pi zero or other mini computer (after finished the project i realice the best mini pc for this project is orangepi PC becouse already have wifi,soundcard and microphone)
+*Convert 12v to two usb 5v 3amp
+*Raspberry Pi Zero Night Vision Camera + 2 pcs IR LED
+*microphone
+*Speaker Pillow (is enough, if you want more powerful you have to feed with another source of energy)
+*XL6009 DC Step UP
+*1 Channel Relay Module
 ```
 
 ### Installing
