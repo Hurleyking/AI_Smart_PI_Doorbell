@@ -25,7 +25,7 @@ In my case I used raspberry pi zero, but could use any other raspberry or orange
 
 | Hardware | Notes |
 | ------ | ------ |
-| Raspberry pi zero  | You can by another version   |
+| Raspberry pi zero  | You can buy another version   |
 | Power suply | Power supply you need to provide 5v for raspberry and 5v for speaker (in my case I put 12v converter with two outputs of 5v) |
 | usb sound card (speakers and microphone) |  Before buying any of them check if is compatible with raspberry, in the aliexpress there is a usb sound card 7.1 for 1 euro |
 | touch button | It is advisable touch button becouse of rain, this being under the acrylic avoiding water leakage. |
