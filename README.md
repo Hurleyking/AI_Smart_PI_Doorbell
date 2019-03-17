@@ -1,63 +1,141 @@
-# AI Smart PI Doorbell
+# AI Smart Doorbell
 
-Video Doorbell with Facial Recognition, Push Notification MQTT and voipcall 
+[![N|Solid](https://i.ibb.co/5GPzx4h/Webp-net-resizeimage.png)]()
 
-## Getting Started
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)]()
 
-This project is adpated to raspberry pi zero whit  RaspCAM .
+Bell was created with the intention of using minimal local physical resources in this way every notification process is by MQTT
 
-### Prerequisites
+Diagram:
+https://ibb.co/TrX8RB4
 
-What things you need to install
+# Features
+  - Face Recgonition via azure
+  - Notification by MQTT
+  - Action Callback by  MQTT
+    - Live 
+    - Snapshot
+    - Playsound 
+    - Add new person to Face Recognition
+   - Call and receive Voipcall 
 
+### Hardware
+
+In my case I used raspberry pi zero, but could use any other raspberry or orangepi PC (in the case of orangepi pc do not need to buy microphone and usb sound)
+
+| Hardware | Notes |
+| ------ | ------ |
+| Raspberry pi zero  | You can by another version   |
+| Power suply | Power supply you need to provide 5v for raspberry and 5v for speaker (in my case I put 12v converter with two outputs of 5v) |
+| usb sound card (speakers and microphone) |  Before buying any of them is compatible with raspberry, in the aliexpress there is a usb sound card 7.1 for 1 euro |
+| touch button | It is advisable touch button due to the rains, this being under the acrylic avoiding water leakage. |
+| Raspcam Infrared | There are several camera to raspberry with various angles, should evaluate what suits your front door. |
+|Another machine | You need another machine on your internal network, preferably with mqtt server, http server with HTTP Basic authentication configure, node-red or homeassistant to send notifications wherever you want |
+
+### Installation
+
+Some python requirements or libraries may be missing if you find any steps please tell me
+
+#### First (External HTTP server)
+
+Copy the index.html file to the http folder of the external server and in turn fill with your data. Note: The server must have HTTP Basic authentication
+
+#### Second (Configure Raspberry)
+
+Install dependencies
+
+```sh
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install python-gpiozero
+sudo apt-get install python-pip
+sudo apt-get install sox
+sudo apt-get install sox libsox-fmt-all
+sudo apt-get install ffmpeg
+sudo apt-get install subversion
+sudo apt-get install -y gpac
+sudo apt-get install linphone
+sudo apt-get install lighttpd
 ```
-*Raspberry pi zero or other mini computer (after finished the project i realice the best mini pc for this project is orangepi PC becouse already have wifi,soundcard and microphone)
-*Convert 12v to two usb 5v 3amp
-*Raspberry Pi Zero Night Vision Camera + 2 pcs IR LED
-*microphone
-*Speaker Pillow (is enough, if you want more powerful you have to feed with another source of energy)
-*XL6009 DC Step UP
-*1 Channel Relay Module
+
+
+Run the following command
+```sh
+sudo chmod 777 /var/www/html
+```
+Edit file lighttpd.conf and change server.stat-cache-engine  to "disable"
+```sh
+sudo nano /etc/lighttpd/ lighttpd.conf 
 ```
 
-### Installing
+Edit file "/etc/network/interfaces" to ensure wifi connection start in boot.
+ Something like this:
 
-A step by step series of examples that tell you how to get a development env running
+>auto lo
+>iface lo inet loopback
+>iface eth0 inet dhcp
+>auto wlan0
+>allow-hotplug wlan0
+> 
+>iface wlan0 inet static
+>    address 192.168.1.120
+>    netmask 255.255.255.0
+>    network 192.168.1.254
+>    broadcast 192.168.1.255
+>    gateway 192.168.1.254
+>    wpa-ssid "SIID_WIFI"
+>    wpa-psk "Password_wifi"
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
-
-```
-Give an example
+Run Github command in the user pi folder (/ home/pi) 
+```sh
+git clone https://github.com/Hurleyking/AI_Smart_PI_Doorbell
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
-
-```
-Give an example
+To ensure WiFi is always on top in case of failure, copy the following file to the directory indicated below:
+```sh
+cp checkwifi.sh  /usr/local/bin/checkwifi.sh
 ```
 
-## Deployment
+Check alsa if this is using correct device (in my case usb1)
+```sh
+alsamixer
+```
+Edit the fixed variables in the files auto_healing.py and doorbell_pi_start.py:
+```
+http_server = 'http_server_adress_and_port_file'
+http_password = 'username'
+http_user = 'password'
+```
+Add follow lines in crontab(sudo crontab -e)
+```
+*/5 * * * * /usr/bin/sudo -H /usr/local/bin/checkwifi.sh >> /dev/null 2>&1
+*/10 * * * * python /home/pi/doorbell_pi/auto_healing.py
+```
 
-Add additional notes about how to deploy this on a live system
+Ready to use. 
+Note: To use face recognition it is necessary create groupId.
+
+### MQTT instructions:
+
+To get notification, subscribe to **doorbell/ring**
+
+To get status from doorbell,  subscribe to **Doorbell/Temperature** and **Doorbell/rssi** .
+
+Publish **doorbell/live**:
+
+>Payload with the String **live_30sec** - Action:  Record 30 seconds of live broadcast and save mp4 to folder /var/www/html/ live_30sec.mp4
+
+>Payload with the String **live_30sec_alexa**  - Action:  Record 30 seconds of live broadcast and save mp4 to folder /var/www/html/ live_30sec.mp4  (for alexa node-red)
+
+>Payload with the String **photo**  - Action: takes a photo realtime and saves it in the folder/var/www/html/last_ring.jpg 
+
+>Payload with the String **{"new_person":"True","name":"marco"}**   - Action: 
+add new person for facial recognition based on the last photo taken (/var/www/html/last_ring.jpg)
+
+### Todos
+
+ - Add created groupid 
+ - tell me more function
+
+
+**Free Software, Hell Yeah!**
