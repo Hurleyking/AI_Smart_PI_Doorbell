@@ -71,21 +71,22 @@ sudo nano /etc/lighttpd/ lighttpd.conf
 Edit file "/etc/network/interfaces" to ensure wifi connection start in boot.
  Something like this:
 
->auto lo
->iface lo inet loopback
->iface eth0 inet dhcp
->auto wlan0
->allow-hotplug wlan0
-> 
->iface wlan0 inet static
->    address 192.168.1.120
->    netmask 255.255.255.0
->    network 192.168.1.254
->    broadcast 192.168.1.255
->    gateway 192.168.1.254
->    wpa-ssid "SIID_WIFI"
->    wpa-psk "Password_wifi"
-
+```
+auto lo
+iface lo inet loopback
+iface eth0 inet dhcp
+auto wlan0
+allow-hotplug wlan0
+ 
+iface wlan0 inet static
+    address 192.168.1.120
+    netmask 255.255.255.0
+    network 192.168.1.254
+    broadcast 192.168.1.255
+    gateway 192.168.1.254
+    wpa-ssid "SIID_WIFI"
+    wpa-psk "Password_wifi"
+```
 Run Github command in the user pi folder (/ home/pi) 
 ```sh
 git clone https://github.com/Hurleyking/AI_Smart_PI_Doorbell
