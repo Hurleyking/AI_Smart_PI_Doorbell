@@ -1,0 +1,308 @@
+[
+    {
+        "id": "935ed3a2.d5bc3",
+        "type": "tab",
+        "label": "Doorbell",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "74742b2b.8f1eb4",
+        "type": "mqtt in",
+        "z": "935ed3a2.d5bc3",
+        "name": "",
+        "topic": "doorbell/ring",
+        "qos": "0",
+        "broker": "7e11a478.29adbc",
+        "x": 75,
+        "y": 283.9999942779541,
+        "wires": [
+            [
+                "e1086b17.e37e08",
+                "faaba40.7aeb66"
+            ]
+        ]
+    },
+    {
+        "id": "3041c973.755a36",
+        "type": "api-call-service",
+        "z": "935ed3a2.d5bc3",
+        "name": "Alguem a porta",
+        "server": "56f279e5.c83ee8",
+        "service_domain": "media_player",
+        "service": "alexa_tts",
+        "data": "{\"entity_id\":\"media_player.marcos_echo_2\",\"message\":\"knock knock Knock. Someone is knocking on the door. Knock Knock Knock.\"}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 608,
+        "y": 55,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "217df581.1415ba",
+        "type": "api-call-service",
+        "z": "935ed3a2.d5bc3",
+        "name": "TV notification",
+        "server": "56f279e5.c83ee8",
+        "service_domain": "notify",
+        "service": "tv_notification",
+        "data": "{\"message\":\"Doorbell\",\"title\":\"Alguem esta a porta\",\"data\":{\"duration\":15,\"timeout\":5,\"file\":{\"url\":\"http://192.168.1.120/last_ring.jpg\"}}}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 601.9999847412109,
+        "y": 142.00002098083496,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "18b40a46.701e36",
+        "type": "api-call-service",
+        "z": "935ed3a2.d5bc3",
+        "name": "Telegram notification",
+        "server": "56f279e5.c83ee8",
+        "service_domain": "telegram_bot",
+        "service": "send_photo",
+        "data": "{\"url\":\"http://192.168.1.120/last_ring.jpg\",\"caption\":\"Doorbell - Alguem esta a porta\"}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 624.0173149108887,
+        "y": 226.0104274749756,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b19661f.2ebafa",
+        "type": "api-call-service",
+        "z": "935ed3a2.d5bc3",
+        "name": "cast photo",
+        "server": "56f279e5.c83ee8",
+        "service_domain": "media_player",
+        "service": "play_media",
+        "data": "{\"entity_id\":\"media_player.tv_2\",\"media_content_id\":\"http://192.168.1.120/last_ring.jpg\",\"media_content_type\":\"image/jpeg\"}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 596,
+        "y": 305,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fe5dbeb8.a3c04",
+        "type": "switch",
+        "z": "935ed3a2.d5bc3",
+        "name": "",
+        "property": "payload.face_recognition_state",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "False",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "True",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 330.00000381469727,
+        "y": 293.00000190734863,
+        "wires": [
+            [
+                "3041c973.755a36",
+                "217df581.1415ba",
+                "18b40a46.701e36",
+                "b19661f.2ebafa"
+            ],
+            [
+                "72f0802c.887f9",
+                "43360831.be2ac8"
+            ]
+        ],
+        "outputLabels": [
+            "True",
+            ""
+        ]
+    },
+    {
+        "id": "9e30cdd5.0a746",
+        "type": "api-call-service",
+        "z": "935ed3a2.d5bc3",
+        "name": "Telegram notification",
+        "server": "56f279e5.c83ee8",
+        "service_domain": "telegram_bot",
+        "service": "send_photo",
+        "data": "{\"entity_id\":\"hurley\",\"url\":\"http://192.168.1.120/last_ring.jpg\",\"caption\":\"Doorbell -{{payload}} esta a porta\"}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 644.0172119140625,
+        "y": 539.0104370117188,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "43360831.be2ac8",
+        "type": "api-call-service",
+        "z": "935ed3a2.d5bc3",
+        "name": "TV notification",
+        "server": "56f279e5.c83ee8",
+        "service_domain": "notify",
+        "service": "tv_notification",
+        "data": "{\"message\":\"Doorbell\",\"title\":\"Alguem esta a porta\",\"data\":{\"duration\":15,\"timeout\":5,\"file\":{\"url\":\"http://192.168.1.120/last_ring.jpg\"}}}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 627,
+        "y": 382.00006103515625,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "59301509.144cdc",
+        "type": "api-call-service",
+        "z": "935ed3a2.d5bc3",
+        "name": "Alguem a porta",
+        "server": "56f279e5.c83ee8",
+        "service_domain": "media_player",
+        "service": "alexa_tts",
+        "data": "{\"entity_id\":\"media_player.marcos_echo_2\",\"message\":\"knock knock Knock. {{payload}} is knocking on the door. Knock Knock Knock.\"}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 623.9999923706055,
+        "y": 454.99999237060547,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6c2e5bc.93c33a4",
+        "type": "mqtt out",
+        "z": "935ed3a2.d5bc3",
+        "name": "",
+        "topic": "doorbell/live",
+        "qos": "0",
+        "retain": "false",
+        "broker": "7e11a478.29adbc",
+        "x": 265.5243225097656,
+        "y": 122.84721946716309,
+        "wires": []
+    },
+    {
+        "id": "dbafdd19.103ba",
+        "type": "inject",
+        "z": "935ed3a2.d5bc3",
+        "name": "call function - Create new face",
+        "topic": "",
+        "payload": "{\"new_person\":\"True\",\"name\":\"marco\"}",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 145.01734924316406,
+        "y": 69.01041603088379,
+        "wires": [
+            [
+                "6c2e5bc.93c33a4"
+            ]
+        ]
+    },
+    {
+        "id": "e1086b17.e37e08",
+        "type": "debug",
+        "z": "935ed3a2.d5bc3",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 247.5277862548828,
+        "y": 384.92362213134766,
+        "wires": []
+    },
+    {
+        "id": "faaba40.7aeb66",
+        "type": "json",
+        "z": "935ed3a2.d5bc3",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 221,
+        "y": 224,
+        "wires": [
+            [
+                "fe5dbeb8.a3c04"
+            ]
+        ]
+    },
+    {
+        "id": "72f0802c.887f9",
+        "type": "template",
+        "z": "935ed3a2.d5bc3",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{{payload.Name}}",
+        "output": "str",
+        "x": 427.0000305175781,
+        "y": 492.9999580383301,
+        "wires": [
+            [
+                "9e30cdd5.0a746",
+                "59301509.144cdc"
+            ]
+        ]
+    },
+    {
+        "id": "7e11a478.29adbc",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "MQTT",
+        "broker": "192.168.1.84",
+        "port": "1883",
+        "clientid": "nodered",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "56f279e5.c83ee8",
+        "type": "server",
+        "z": "",
+        "name": "Home Assistant",
+        "legacy": false,
+        "hassio": true,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open"
+    }
+]

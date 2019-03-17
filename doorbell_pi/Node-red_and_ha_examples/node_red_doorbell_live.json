@@ -1,0 +1,230 @@
+[
+    {
+        "id": "ba7f2091.61471",
+        "type": "tab",
+        "label": "Doorbell input",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "f6b190b1.7f81f",
+        "type": "mqtt in",
+        "z": "ba7f2091.61471",
+        "name": "",
+        "topic": "doorbell/live",
+        "qos": "2",
+        "broker": "7e11a478.29adbc",
+        "x": 150,
+        "y": 116,
+        "wires": [
+            [
+                "5d018fb5.7d195",
+                "e35fef8f.96a6c"
+            ]
+        ]
+    },
+    {
+        "id": "e35fef8f.96a6c",
+        "type": "switch",
+        "z": "ba7f2091.61471",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "live_30sec_ready",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "photo_ready",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "live_30sec_alexa_ready",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 284.48954010009766,
+        "y": 57.062477111816406,
+        "wires": [
+            [
+                "64332ee4.5682f"
+            ],
+            [
+                "3f391f37.8034c"
+            ],
+            [
+                "fd6df840.1b1cd8"
+            ]
+        ]
+    },
+    {
+        "id": "64332ee4.5682f",
+        "type": "api-call-service",
+        "z": "ba7f2091.61471",
+        "name": "Telegram notification video",
+        "server": "56f279e5.c83ee8",
+        "service_domain": "telegram_bot",
+        "service": "send_video",
+        "data": "{\"entity_id\":\"hurley\",\"url\":\"http://192.168.1.120/live_30sec.mp4\",\"caption\":\"Doorbell - Ultimos 15sec\"}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 555.4895095825195,
+        "y": 66.0624771118164,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5d018fb5.7d195",
+        "type": "debug",
+        "z": "ba7f2091.61471",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": true,
+        "tostatus": true,
+        "complete": "true",
+        "x": 247.489501953125,
+        "y": 322.0625,
+        "wires": []
+    },
+    {
+        "id": "3f391f37.8034c",
+        "type": "api-call-service",
+        "z": "ba7f2091.61471",
+        "name": "Telegram notification",
+        "server": "56f279e5.c83ee8",
+        "service_domain": "telegram_bot",
+        "service": "send_photo",
+        "data": "{\"entity_id\":\"hurley\",\"url\":\"http://192.168.1.120/last_ring.jpg\",\"caption\":\"Doorbell - Request Photo\"}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 475,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fd6df840.1b1cd8",
+        "type": "api-call-service",
+        "z": "ba7f2091.61471",
+        "name": "cast photo",
+        "server": "56f279e5.c83ee8",
+        "service_domain": "media_player",
+        "service": "play_media",
+        "data": "{\"entity_id\":\"media_player.tv_2\",\"media_content_id\":\"http://192.168.1.120/live_30sec.mp4\",\"media_content_type\":\"video/mp4\"}",
+        "mergecontext": "",
+        "output_location": "payload",
+        "output_location_type": "msg",
+        "x": 532,
+        "y": 174,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5d2cdcf7.25a8f3",
+        "type": "alexa-home",
+        "z": "ba7f2091.61470",
+        "conf": "19f10d52.509c52",
+        "device": "51005",
+        "acknoledge": true,
+        "name": "doorbell",
+        "topic": "Doorbell",
+        "x": 104,
+        "y": 416.9999780654907,
+        "wires": [
+            [
+                "5a30f264.6f725s"
+            ]
+        ]
+    },
+    {
+        "id": "496f78bf.c2b3d8",
+        "type": "mqtt out",
+        "z": "ba7f2091.61471",
+        "name": "live",
+        "topic": "doorbell/live",
+        "qos": "0",
+        "retain": "",
+        "broker": "7e11a478.29adbc",
+        "x": 425.06599044799805,
+        "y": 418.4305534362793,
+        "wires": []
+    },
+    {
+        "id": "5a30f264.6f725c",
+        "type": "change",
+        "z": "ba7f2091.61471",
+        "name": "change",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "live_30sec_alexa",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 257.99999237060547,
+        "y": 416.99997901916504,
+        "wires": [
+            [
+                "496f78bf.c2b3d8"
+            ]
+        ]
+    },
+    {
+        "id": "7e11a478.29adbc",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "MQTT",
+        "broker": "192.168.1.84",
+        "port": "1883",
+        "clientid": "nodered",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "56f279e5.c83ee8",
+        "type": "server",
+        "z": "",
+        "name": "Home Assistant",
+        "legacy": false,
+        "hassio": true,
+        "rejectUnauthorizedCerts": true,
+        "ha_boolean": "y|yes|true|on|home|open"
+    },
+    {
+        "id": "19f10d52",
+        "type": "alexa-home-conf",
+        "z": "",
+        "username": "hurley"
+    }
+]
