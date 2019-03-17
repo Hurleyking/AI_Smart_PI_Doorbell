@@ -116,7 +116,7 @@ http_user = 'password'
 Add follow lines in crontab(sudo crontab -e)
 ```
 */5 * * * * /usr/bin/sudo -H /usr/local/bin/checkwifi.sh >> /dev/null 2>&1
-*/10 * * * * python /home/pi/doorbell_pi/auto_healing.py
+*/10 * * * * python /home/pi/AI_Smart_PI_Doorbell/doorbell_pi/auto_healing.py
 ```
 
 Ready to use. 

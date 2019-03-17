@@ -55,7 +55,7 @@ def  state_service():
                         state_service = 1
         if state_service <> 1:
                 print "Subir servico"
-                subprocess.Popen(['nohup','python','/home/pi/doorbell_pi/doorbell_pi_start.py'],
+                subprocess.Popen(['nohup','python','/home/pi/AI_Smart_PI_Doorbell/doorbell_pi/doorbell_pi_start.py'],
                  stdout=open('/dev/null', 'w'),
                  stderr=open('logfile.log', 'a'),
                  preexec_fn=os.setpgrp
