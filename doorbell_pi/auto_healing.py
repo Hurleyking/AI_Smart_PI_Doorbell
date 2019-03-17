@@ -60,7 +60,6 @@ def  state_service():
                  stderr=open('logfile.log', 'a'),
                  preexec_fn=os.setpgrp
                  )
-                #subprocess.call(["nohup", "python doorbell_pi_start.py"])
 
 def  state_rssi_wifi():
         parser = argparse.ArgumentParser(description='Display WLAN signal strength.')

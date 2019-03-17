@@ -141,7 +141,7 @@ add new person for facial recognition based on the last photo taken (/var/www/ht
 
 ### Todos
 
- - Add created groupid automatic
+ - Add condition to created groupid automatic
  - tell me more function
 
 
