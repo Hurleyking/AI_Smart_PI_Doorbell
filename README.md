@@ -25,16 +25,16 @@ In my case I used raspberry pi zero, but could use any other raspberry or orange
 
 | Hardware | Notes |
 | ------ | ------ |
-| Raspberry pi zero  | You can by another version   |
+| Raspberry pi zero  | You can buy another version   |
 | Power suply | Power supply you need to provide 5v for raspberry and 5v for speaker (in my case I put 12v converter with two outputs of 5v) |
-| usb sound card (speakers and microphone) |  Before buying any of them is compatible with raspberry, in the aliexpress there is a usb sound card 7.1 for 1 euro |
-| touch button | It is advisable touch button due to the rains, this being under the acrylic avoiding water leakage. |
-| Raspcam Infrared | There are several camera to raspberry with various angles, should evaluate what suits your front door. |
-|Another machine | You need another machine on your internal network, preferably with mqtt server, http server with HTTP Basic authentication configure, node-red or homeassistant to send notifications wherever you want |
+| usb sound card (speakers and microphone) |  Before buying any of them check if is compatible with raspberry, in the aliexpress there is a usb sound card 7.1 for 1 euro |
+| touch button | It is advisable touch button becouse of rain, this being under the acrylic avoiding water leakage. |
+| Raspcam Infrared | There are several camera to raspberry with various angles, should buy what suits for your front door. |
+|Another machine | You need another machine on your internal network with mqtt server, http server with HTTP Basic authentication configure, node-red or homeassistant to send notifications wherever you want |
 
 ### Installation
 
-Some python requirements or libraries may be missing if you find any steps please tell me
+Some python requirements or libraries may be missing if you find any steps failed please tell me.
 
 #### First (External HTTP server)
 
@@ -42,7 +42,7 @@ Copy the index.html file to the http folder of the external server and in turn f
 
 #### Second (Configure Raspberry)
 
-Install dependencies
+Install all dependencies
 
 ```sh
 sudo apt-get update
@@ -116,7 +116,7 @@ http_user = 'password'
 Add follow lines in crontab(sudo crontab -e)
 ```
 */5 * * * * /usr/bin/sudo -H /usr/local/bin/checkwifi.sh >> /dev/null 2>&1
-*/10 * * * * python /home/pi/doorbell_pi/auto_healing.py
+*/10 * * * * python /home/pi/AI_Smart_PI_Doorbell/doorbell_pi/auto_healing.py
 ```
 
 Ready to use. 
@@ -141,7 +141,7 @@ add new person for facial recognition based on the last photo taken (/var/www/ht
 
 ### Todos
 
- - Add created groupid automatic
+ - Add condition to created groupid automatic
  - tell me more function
 
 

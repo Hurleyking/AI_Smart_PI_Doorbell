@@ -356,7 +356,6 @@ if subscription_key['face_recognition_state'] == 'True':
 
 play_sound_type = 'start'
 print('Start')
-
 if __name__ == '__main__':
         Thread(target = wait_press).start()
         Thread(target = listen_mqtt_message).start()
