@@ -107,6 +107,12 @@ http_server = 'http_server_adress_and_port_file'
 http_password = 'username'
 http_user = 'password'
 ```
+
+
+
+`Notice:` To use face recognition it is necessary create groupId new, for do that you need discomment the line 348 from  file doorbell_pi_start.py "#person_group_create_v2()" to "person_group_create_v2()"  after run script you need comment again,  otherwise try to always create new groupid whenever script starts
+
+
 Add follow lines in crontab(sudo crontab -e)
 ```
 */5 * * * * /usr/bin/sudo -H /usr/local/bin/checkwifi.sh >> /dev/null 2>&1
@@ -114,7 +120,7 @@ Add follow lines in crontab(sudo crontab -e)
 ```
 
 Ready to use. 
-Note: To use face recognition it is necessary create groupId.
+
 
 ### MQTT instructions:
 
