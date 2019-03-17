@@ -7,7 +7,7 @@
 Bell was created with the intention of using minimal local physical resources in this way every notification process is by MQTT
 
 Diagram:
-https://ibb.co/TrX8RB4
+[![N|Solid](https://i.ibb.co/3TPp3xc/Untitled-Diagram-7-1.jpg)]
 
 # Features
   - Face Recgonition via azure
